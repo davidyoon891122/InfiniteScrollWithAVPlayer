@@ -26,10 +26,8 @@ final class BannerCell: UICollectionViewCell {
         return layer
     }()
 
-
     private lazy var containerView: UIView = {
         let view = UIView()
-
         view.layer.addSublayer(self.avPlayerLayer)
 
         return view
@@ -46,7 +44,6 @@ final class BannerCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         self.avPlayerLayer.frame = self.contentView.bounds
     }
 
@@ -74,5 +71,8 @@ private extension BannerCell {
 
 @available(iOS 17.0, *)
 #Preview {
-    BannerCell()
+    let cell = BannerCell()
+    cell.setData(data: .items[0])
+    
+    return cell
 }
