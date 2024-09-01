@@ -6,15 +6,17 @@
 //
 
 import Foundation
+import Combine
 
 struct MainViewModel {
 
     struct Inputs {
-
+        let viewDidLoad: AnyPublisher<Void, Never>
     }
 
     struct Outputs {
-
+        let item: AnyPublisher<[MainDataItem], Never>
+        let events: AnyPublisher<Void, Never>
     }
 
     private let navigator: MainViewNavigatorProtocol
@@ -28,6 +30,24 @@ struct MainViewModel {
 extension MainViewModel {
 
     func bind(_ inputs: Inputs) -> Outputs {
-        return .init()
+
+        let itemSubject: PassthroughSubject<[MainDataItem], Never> = .init()
+
+        let events = Publishers.MergeMany(
+            inputs.viewDidLoad
+                .map {
+                    print("ViewDidLoad")
+
+                    let productItems = ProductModel.items.map { MainDataItem(section: .product, items: [.product($0)])}
+
+                    itemSubject.send([
+                        .init(section: .banner, items: [.banner])
+                    ] + productItems)
+                }
+                .eraseToAnyPublisher()
+        )
+            .eraseToAnyPublisher()
+
+        return .init(item: itemSubject.eraseToAnyPublisher(), events: events)
     }
 }
