@@ -143,6 +143,7 @@ private extension BannerMainCell {
 
 }
 
+@available(iOS 17.0, *)
 #Preview {
     BannerMainCell()
 }

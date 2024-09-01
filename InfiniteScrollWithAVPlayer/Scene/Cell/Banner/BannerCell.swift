@@ -46,12 +46,12 @@ final class BannerCell: UICollectionViewCell {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         self.avPlayerLayer.frame = self.contentView.bounds
-
     }
 
     override func prepareForReuse() {
+        super.prepareForReuse()
         self.avPlayer.replaceCurrentItem(with: nil)
     }
 
@@ -68,13 +68,11 @@ private extension BannerCell {
             $0.edges.equalToSuperview()
             $0.height.equalTo(500.0)
         }
-
-        self.layoutIfNeeded()
     }
 
 }
 
-
+@available(iOS 17.0, *)
 #Preview {
     BannerCell()
 }

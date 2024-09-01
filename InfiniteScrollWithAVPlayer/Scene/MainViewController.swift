@@ -131,6 +131,7 @@ private extension MainViewController {
 }
 
 
+@available(iOS 17.0, *)
 #Preview {
     MainViewController(viewModel: MainViewModel(navigator: MainViewNavigator(navigationController: UINavigationController())))
 }

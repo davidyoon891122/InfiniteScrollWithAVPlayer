@@ -53,11 +53,10 @@ private extension ProductCell {
             $0.height.equalTo(500)
         }
     }
-
-
-
+    
 }
 
+@available(iOS 17.0, *)
 #Preview {
     ProductCell()
 }
