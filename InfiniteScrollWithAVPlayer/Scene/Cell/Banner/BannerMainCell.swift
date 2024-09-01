@@ -111,9 +111,9 @@ private extension BannerMainCell {
                     print(currentPage)
 
                     if currentPage == 0 {
-                        self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .left, animated: false)
+                        self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .centeredHorizontally, animated: false)
                     } else if currentPage == 5 {
-                        self.collectionView.scrollToItem(at: IndexPath(row: 3, section: 0), at: .left, animated: false)
+                        self.collectionView.scrollToItem(at: IndexPath(row: 3, section: 0), at: .centeredHorizontally, animated: false)
                     }
                 }
 
@@ -133,12 +133,6 @@ private extension BannerMainCell {
             self.collectionView.scrollToItem(at: IndexPath(item: 2, section: 0), at: .left, animated: false)
         }
 
-    }
-
-    func scrollToInitialPosition(in section: Int) {
-        let itemsCount = self.collectionView.numberOfItems(inSection: section) / 3
-        let initialIndexPath = IndexPath(item: itemsCount, section: section)
-        self.collectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
     }
 
 }
