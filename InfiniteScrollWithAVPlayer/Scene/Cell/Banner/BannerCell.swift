@@ -7,39 +7,52 @@
 
 import UIKit
 import SnapKit
+import AVKit
 
 final class BannerCell: UICollectionViewCell {
 
     static let identifier: String = String(describing: BannerCell.self)
 
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "title"
-        label.textColor = .label
+    private lazy var avPlayer: AVPlayer = {
+        let avPlayer = AVPlayer()
 
-        return label
+        return avPlayer
+    }()
+
+    private lazy var avPlayerLayer: AVPlayerLayer = {
+        let layer = AVPlayerLayer(player: self.avPlayer)
+        layer.videoGravity = .resize
+
+        return layer
     }()
 
 
     private lazy var containerView: UIView = {
         let view = UIView()
-        [
-            self.titleLabel
-        ].forEach { view.addSubview($0) }
 
-        self.titleLabel.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.height.equalTo(500.0)
-        }
-
+        view.layer.addSublayer(self.avPlayerLayer)
 
         return view
     }()
 
     func setData(data: BannerModel) {
         self.setupViews()
-        self.titleLabel.text = data.title
-        self.containerView.backgroundColor = data.bgColor
+        if let url = data.url {
+            let item = AVPlayerItem(url: url)
+            self.avPlayer.replaceCurrentItem(with: item)
+        }
+
+         self.avPlayer.play()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        self.avPlayerLayer.frame = self.contentView.bounds
+    }
+
+    override func prepareForReuse() {
+        self.avPlayer.replaceCurrentItem(with: nil)
     }
 
 }
@@ -53,6 +66,7 @@ private extension BannerCell {
 
         self.containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(500.0)
         }
     }
 

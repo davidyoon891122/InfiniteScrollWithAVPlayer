@@ -107,6 +107,16 @@ private extension BannerMainCell {
 
             section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
 
+                if let currentPage = Int(exactly: offset.x / self.collectionView.bounds.width) {
+                    print(currentPage)
+
+                    if currentPage == 0 {
+                        self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .left, animated: false)
+                    } else if currentPage == 5 {
+                        self.collectionView.scrollToItem(at: IndexPath(row: 3, section: 0), at: .left, animated: false)
+                    }
+                }
+
 
             }
 
@@ -119,7 +129,9 @@ private extension BannerMainCell {
         snapshot.appendSections(BannerSection.allCases)
         snapshot.appendItems(data, toSection: .banner)
 
-        self.dataSource.apply(snapshot, animatingDifferences: true)
+        self.dataSource.apply(snapshot, animatingDifferences: true) {
+            self.collectionView.scrollToItem(at: IndexPath(item: 2, section: 0), at: .left, animated: false)
+        }
 
     }
 

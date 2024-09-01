@@ -135,8 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				499B072B2C83EC6200C46FDD /* BannerMainCell.swift */,
-				499B073A2C84012100C46FDD /* BannerCell.swift */,
 				499B073F2C84039900C46FDD /* BannerMainCellViewModel.swift */,
+				499B073A2C84012100C46FDD /* BannerCell.swift */,
 			);
 			path = Banner;
 			sourceTree = "<group>";

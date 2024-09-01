@@ -29,7 +29,6 @@ final class ProductCell: UICollectionViewCell {
 
         self.titleLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(300)
         }
 
         return view
@@ -51,6 +50,7 @@ private extension ProductCell {
 
         self.containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.height.equalTo(500)
         }
     }
 

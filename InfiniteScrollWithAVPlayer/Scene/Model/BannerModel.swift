@@ -19,8 +19,8 @@ struct BannerModel: Identifiable, Hashable {
 extension BannerModel {
 
     static let items: [Self] = [
-        .init(id: UUID().uuidString, title: "First", url: URL(string: ""), bgColor: .cyan),
-        .init(id: UUID().uuidString, title: "Second", url: URL(string: ""), bgColor: .purple)
+        .init(id: UUID().uuidString, title: "First", url: URL(string: "https://dywhtlvtiow1a.cloudfront.net/outputs/jeju_cbr.m3u8"), bgColor: .cyan),
+        .init(id: UUID().uuidString, title: "Second", url: URL(string: "https://dywhtlvtiow1a.cloudfront.net/outputs/refik+anadol_cbr.m3u8"), bgColor: .purple)
     ]
 
     var infinitedModel: Self {
