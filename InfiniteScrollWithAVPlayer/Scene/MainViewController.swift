@@ -41,10 +41,10 @@ final class MainViewController: UIViewController {
     private lazy var dataSource: UICollectionViewDiffableDataSource<MainSection, MainItem> = {
         .init(collectionView: self.collectionView, cellProvider: { collectionView, indexPath, item in
             switch item {
-            case .banner:
+            case .banner(let viewModel):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerMainCell.identifier, for: indexPath) as? BannerMainCell else { return UICollectionViewCell() }
 
-                cell.setupData()
+                cell.setupData(viewModel: viewModel)
 
                 return cell
             case .product(let product):

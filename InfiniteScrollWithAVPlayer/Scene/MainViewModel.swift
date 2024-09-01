@@ -39,9 +39,10 @@ extension MainViewModel {
                     print("ViewDidLoad")
 
                     let productItems = ProductModel.items.map { MainDataItem(section: .product, items: [.product($0)])}
+                    let bannerItems = BannerModel.items
 
                     itemSubject.send([
-                        .init(section: .banner, items: [.banner])
+                        .init(section: .banner, items: [.banner(BannerMainCellViewModel(bannerModels: bannerItems))])
                     ] + productItems)
                 }
                 .eraseToAnyPublisher()
