@@ -38,8 +38,10 @@ extension MainViewModel {
                 .map {
                     print("ViewDidLoad")
 
+                    let infinitedFrontItems = BannerModel.items.map { $0.infinitedModel }
+                    let infinitedBackItems = BannerModel.items.map { $0.infinitedModel }
                     let productItems = ProductModel.items.map { MainDataItem(section: .product, items: [.product($0)])}
-                    let bannerItems = BannerModel.items
+                    let bannerItems = infinitedFrontItems + BannerModel.items + infinitedBackItems
 
                     itemSubject.send([
                         .init(section: .banner, items: [.banner(BannerMainCellViewModel(bannerModels: bannerItems))])

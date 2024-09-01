@@ -9,7 +9,7 @@ import UIKit
 
 struct BannerModel: Identifiable, Hashable {
 
-    let id: String
+    var id: String
     let title: String
     let url: URL?
     let bgColor: UIColor
@@ -22,5 +22,11 @@ extension BannerModel {
         .init(id: UUID().uuidString, title: "First", url: URL(string: ""), bgColor: .cyan),
         .init(id: UUID().uuidString, title: "Second", url: URL(string: ""), bgColor: .purple)
     ]
+
+    var infinitedModel: Self {
+        var infinitedModel = self
+        infinitedModel.id = UUID().uuidString
+        return infinitedModel
+    }
 
 }

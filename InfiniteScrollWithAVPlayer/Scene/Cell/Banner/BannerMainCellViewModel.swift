@@ -45,6 +45,8 @@ extension BannerMainCellViewModel: Hashable {
 
 
         return .init(item: itemSubject.eraseToAnyPublisher(), events: events)
+
+
     }
 
 }

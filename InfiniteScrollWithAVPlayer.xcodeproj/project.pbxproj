@@ -24,6 +24,7 @@
 		499B073B2C84012100C46FDD /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499B073A2C84012100C46FDD /* BannerCell.swift */; };
 		499B073E2C8402CA00C46FDD /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499B073D2C8402CA00C46FDD /* BannerModel.swift */; };
 		499B07402C84039900C46FDD /* BannerMainCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499B073F2C84039900C46FDD /* BannerMainCellViewModel.swift */; };
+		499B07422C840A3B00C46FDD /* Extension+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499B07412C840A3A00C46FDD /* Extension+Combine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		499B073A2C84012100C46FDD /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
 		499B073D2C8402CA00C46FDD /* BannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
 		499B073F2C84039900C46FDD /* BannerMainCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerMainCellViewModel.swift; sourceTree = "<group>"; };
+		499B07412C840A3A00C46FDD /* Extension+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Combine.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				499B07172C83065E00C46FDD /* LaunchScreen.storyboard */,
 				499B071A2C83065E00C46FDD /* Info.plist */,
 				499B07232C8320EB00C46FDD /* Scene */,
+				499B07412C840A3A00C46FDD /* Extension+Combine.swift */,
 			);
 			path = InfiniteScrollWithAVPlayer;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				499B072C2C83EC6200C46FDD /* BannerMainCell.swift in Sources */,
 				499B07222C8320D200C46FDD /* MainViewController.swift in Sources */,
 				499B070D2C83065C00C46FDD /* AppDelegate.swift in Sources */,
+				499B07422C840A3B00C46FDD /* Extension+Combine.swift in Sources */,
 				499B073E2C8402CA00C46FDD /* BannerModel.swift in Sources */,
 				499B07272C83210800C46FDD /* MainViewNavigator.swift in Sources */,
 				499B070F2C83065C00C46FDD /* SceneDelegate.swift in Sources */,

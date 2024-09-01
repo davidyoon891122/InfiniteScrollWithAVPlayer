@@ -60,10 +60,14 @@ final class BannerMainCell: UICollectionViewCell {
         })
     }()
 
+    private var isMovedInfinitedScroll: Bool = false
+
 
     func setupData(viewModel: BannerMainCellViewModel) {
         self.setupView()
-        let outputs = viewModel.bind(.init(cellDidLoad: self.cellDidLoad.eraseToAnyPublisher()))
+        let outputs = viewModel.bind(.init(
+            cellDidLoad: self.cellDidLoad.eraseToAnyPublisher()
+        ))
 
         [
             outputs.item
@@ -100,6 +104,12 @@ private extension BannerMainCell {
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .groupPagingCentered
 
+
+            section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+
+
+            }
+
             return section
         })
     }
@@ -111,6 +121,12 @@ private extension BannerMainCell {
 
         self.dataSource.apply(snapshot, animatingDifferences: true)
 
+    }
+
+    func scrollToInitialPosition(in section: Int) {
+        let itemsCount = self.collectionView.numberOfItems(inSection: section) / 3
+        let initialIndexPath = IndexPath(item: itemsCount, section: section)
+        self.collectionView.scrollToItem(at: initialIndexPath, at: .centeredHorizontally, animated: false)
     }
 
 }
