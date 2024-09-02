@@ -20,6 +20,7 @@ final class BannerMainCell: UICollectionViewCell {
 
     // Subjects
     private let cellDidLoad: PassthroughSubject<Void, Never> = .init()
+    private let scrollIndexSubject: PassthroughSubject<Int, Never> = .init()
 
     private var cancellables: Set<AnyCancellable> = .init()
 

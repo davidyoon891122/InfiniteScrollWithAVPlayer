@@ -8,11 +8,17 @@
 import UIKit
 import SnapKit
 import Player
+import Kingfisher
 
 final class BannerCell: UICollectionViewCell {
 
     static let identifier: String = String(describing: BannerCell.self)
     
+    private lazy var thumbNailImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        return imageView
+    }()
     
     private lazy var player: Player = {
         let player = Player()
@@ -25,6 +31,16 @@ final class BannerCell: UICollectionViewCell {
     private lazy var containerView: UIView = {
         let view = UIView()
         view.addSubview(self.player.view)
+        
+        [
+            self.thumbNailImageView
+        ].forEach {
+            view.addSubview($0)
+        }
+        
+        self.thumbNailImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
 
         return view
     }()
@@ -33,11 +49,16 @@ final class BannerCell: UICollectionViewCell {
         self.setupViews()
         self.player.url = data.url
         self.player.playFromBeginning()
+        self.thumbNailImageView.kf.setImage(with: data.imageURL)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+            self.thumbNailImageView.isHidden = true
+        })
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.player.view.frame = contentView.bounds
+        self.player.view.frame = self.contentView.bounds
         
     }
 
@@ -46,11 +67,6 @@ final class BannerCell: UICollectionViewCell {
         self.player.pause()
         self.player.url = nil
         
-    }
-    
-    deinit {
-        self.player.pause()
-        self.player.url = nil
     }
 
 }
