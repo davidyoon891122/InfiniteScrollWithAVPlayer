@@ -7,49 +7,50 @@
 
 import UIKit
 import SnapKit
-import AVKit
+import Player
 
 final class BannerCell: UICollectionViewCell {
 
     static let identifier: String = String(describing: BannerCell.self)
-
-    private lazy var avPlayer: AVPlayer = {
-        let avPlayer = AVPlayer()
-
-        return avPlayer
-    }()
-
-    private lazy var avPlayerLayer: AVPlayerLayer = {
-        let layer = AVPlayerLayer(player: self.avPlayer)
-        layer.videoGravity = .resize
-
-        return layer
+    
+    
+    private lazy var player: Player = {
+        let player = Player()
+        player.fillMode = .resizeAspectFill
+        player.playbackLoops = true
+        
+        return player
     }()
 
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.layer.addSublayer(self.avPlayerLayer)
+        view.addSubview(self.player.view)
 
         return view
     }()
 
     func setData(data: BannerModel) {
         self.setupViews()
-        if let url = data.url {
-            let item = AVPlayerItem(url: url)
-            self.avPlayer.replaceCurrentItem(with: item)
-        }
-        self.avPlayer.play()
+        self.player.url = data.url
+        self.player.playFromBeginning()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.avPlayerLayer.frame = self.contentView.bounds
+        self.player.view.frame = contentView.bounds
+        
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.avPlayer.replaceCurrentItem(with: nil)
+        self.player.pause()
+        self.player.url = nil
+        
+    }
+    
+    deinit {
+        self.player.pause()
+        self.player.url = nil
     }
 
 }
