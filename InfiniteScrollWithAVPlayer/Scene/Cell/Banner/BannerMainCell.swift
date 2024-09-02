@@ -20,6 +20,7 @@ final class BannerMainCell: UICollectionViewCell {
 
     // Subjects
     private let cellDidLoad: PassthroughSubject<Void, Never> = .init()
+    private let scrollDidStart: PassthroughSubject<IndexPath, Never> = .init()
 
     private var cancellables: Set<AnyCancellable> = .init()
 
@@ -27,9 +28,16 @@ final class BannerMainCell: UICollectionViewCell {
 
 
     private lazy var collectionView: UICollectionView = {
-        let layout = self.createLayout()
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = .init(width: UIScreen.main.bounds.width, height: 500.0)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0.0
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.identifier)
+        collectionView.delegate = self
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
 
         return collectionView
     }()
@@ -60,9 +68,6 @@ final class BannerMainCell: UICollectionViewCell {
         })
     }()
 
-    private var isMovedInfinitedScroll: Bool = false
-
-
     func setupData(viewModel: BannerMainCellViewModel) {
         self.setupView()
         let outputs = viewModel.bind(.init(
@@ -84,6 +89,47 @@ final class BannerMainCell: UICollectionViewCell {
 
 }
 
+extension BannerMainCell: UICollectionViewDelegateFlowLayout {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.handleInfiniteScroll(scrollView)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        self.handleInfiniteScroll(scrollView)
+    }
+    
+    private func handleInfiniteScroll(_ scrollView: UIScrollView) {
+        let currentPage = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+
+        if currentPage == 0 {
+            self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .centeredHorizontally, animated: false)
+        } else if currentPage == 5 {
+            self.collectionView.scrollToItem(at: IndexPath(row: 3, section: 0), at: .centeredHorizontally, animated: false)
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let indexPath = self.collectionView.indexPathsForVisibleItems.first {
+            print("Begin Dragging: \(indexPath.row)")
+            self.scrollDidStart.send(indexPath)
+            
+            guard let cell = self.collectionView.cellForItem(at: indexPath) as? BannerCell else { return }
+            cell.pause()
+            
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let bannerCell = cell as? BannerCell else { return }
+        print("will displayed IndexPath: \(indexPath.row)")
+        bannerCell.play()
+    }
+    
+}
+
+
+
 private extension BannerMainCell {
 
     func setupView() {
@@ -96,33 +142,6 @@ private extension BannerMainCell {
         }
     }
 
-    func createLayout() -> UICollectionViewCompositionalLayout {
-        .init(sectionProvider: { sectionIndex, layoutEnvironment in
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(500.0)))
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(500.0)), subitems: [item])
-
-            let section = NSCollectionLayoutSection(group: group)
-            section.orthogonalScrollingBehavior = .groupPagingCentered
-
-
-            section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
-
-                if let currentPage = Int(exactly: offset.x / self.collectionView.bounds.width) {
-                    print(currentPage)
-
-                    if currentPage == 0 {
-                        self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .centeredHorizontally, animated: false)
-                    } else if currentPage == 5 {
-                        self.collectionView.scrollToItem(at: IndexPath(row: 3, section: 0), at: .centeredHorizontally, animated: false)
-                    }
-                }
-
-
-            }
-
-            return section
-        })
-    }
 
     func applySnapshot(data: [BannerModel]) {
         var snapshot = NSDiffableDataSourceSnapshot<BannerSection, BannerModel>()

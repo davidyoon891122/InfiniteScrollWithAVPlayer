@@ -39,7 +39,6 @@ final class BannerCell: UICollectionViewCell {
             let item = AVPlayerItem(url: url)
             self.avPlayer.replaceCurrentItem(with: item)
         }
-        self.avPlayer.play()
     }
 
     override func layoutSubviews() {
@@ -50,6 +49,15 @@ final class BannerCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.avPlayer.replaceCurrentItem(with: nil)
+    }
+    
+    func play() {
+        self.avPlayer.seek(to: .zero)
+        self.avPlayer.play()
+    }
+    
+    func pause() {
+        self.avPlayer.pause()
     }
 
 }
