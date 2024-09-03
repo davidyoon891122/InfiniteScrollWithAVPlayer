@@ -8,10 +8,18 @@
 import UIKit
 import SnapKit
 import AVKit
+import Kingfisher
 
 final class BannerCell: UICollectionViewCell {
 
     static let identifier: String = String(describing: BannerCell.self)
+    
+    private lazy var thumbNailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = false
+        
+        return imageView
+    }()
 
     private lazy var avPlayer: AVPlayer = {
         let avPlayer = AVPlayer()
@@ -29,6 +37,12 @@ final class BannerCell: UICollectionViewCell {
     private lazy var containerView: UIView = {
         let view = UIView()
         view.layer.addSublayer(self.avPlayerLayer)
+        
+        view.addSubview(self.thumbNailImageView)
+        
+        self.thumbNailImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
 
         return view
     }()
@@ -36,10 +50,14 @@ final class BannerCell: UICollectionViewCell {
     func setData(data: BannerModel) {
         self.setupViews()
         if let url = data.url {
-            let item = AVPlayerItem(url: url)
+            self.thumbNailImageView.isHidden = false
+            let asset = AVAsset(url: url)
+            let item = AVPlayerItem(asset: asset)
             self.avPlayer.replaceCurrentItem(with: item)
+            self.thumbNailImageView.kf.setImage(with: data.imageURL)
+            self.play()
         }
-        self.avPlayer.play()
+        
     }
 
     override func layoutSubviews() {
@@ -50,6 +68,21 @@ final class BannerCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.avPlayer.replaceCurrentItem(with: nil)
+        self.avPlayer.seek(to: .zero)
+        self.avPlayerLayer.frame = .zero
+        self.thumbNailImageView.kf.cancelDownloadTask()
+        self.thumbNailImageView.image = nil
+        self.thumbNailImageView.isHidden = false
+    }
+    
+    func play() {
+        print("Play")
+        self.avPlayer.seek(to: .zero)
+        self.avPlayer.play()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.thumbNailImageView.isHidden = true
+        }
     }
 
 }

@@ -10,6 +10,8 @@ import Combine
 import CombineCocoa
 import SnapKit
 
+typealias BannerIndexInfo = (currentIndex: Int, itemsCount: Int)
+
 enum BannerSection: Int, CaseIterable {
 
     case banner
@@ -61,6 +63,8 @@ final class BannerMainCell: UICollectionViewCell {
     }()
 
     private var isMovedInfinitedScroll: Bool = false
+    
+    private var currentCenterIndexPath: IndexPath?
 
 
     func setupData(viewModel: BannerMainCellViewModel) {
@@ -105,19 +109,18 @@ private extension BannerMainCell {
             section.orthogonalScrollingBehavior = .groupPagingCentered
 
 
-            section.visibleItemsInvalidationHandler = { (visibleItems, offset, env) in
+            section.visibleItemsInvalidationHandler = { [weak self] (visibleItems, offset, env) in
+                guard let currentIndex = visibleItems.last?.indexPath.row,
+                      visibleItems.last?.indexPath.section == 0,
+                      let self = self else { return }
+                        
+                self.willChangeMainSectionIndex(currentIndex: currentIndex)
+                
+                let centerX = self.collectionView.contentOffset.x + self.collectionView.bounds.width / 2
+                let centerY = self.collectionView.contentOffset.y + self.collectionView.bounds.height / 2
+                let centerPoint = CGPoint(x: centerX, y: centerY)
 
-                if let currentPage = Int(exactly: offset.x / self.collectionView.bounds.width) {
-                    print(currentPage)
-
-                    if currentPage == 0 {
-                        self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .centeredHorizontally, animated: false)
-                    } else if currentPage == 5 {
-                        self.collectionView.scrollToItem(at: IndexPath(row: 3, section: 0), at: .centeredHorizontally, animated: false)
-                    }
-                }
-
-
+                self.currentCenterIndexPath = self.collectionView.indexPathForItem(at: centerPoint)
             }
 
             return section
@@ -134,7 +137,44 @@ private extension BannerMainCell {
         }
 
     }
+    
+    func willChangeMainSectionIndex(currentIndex: Int) {
+        let startTriggerIndex = 2 - 1  //     8 인덱스
+        let endTriggerIndex = 2 * 2 + 1  // 7 인덱스
+        let middleLastIndex = 2 * 2 - 1  // 5 인덱스
+        let middleStartIndex = 2 // 9 인덱스
 
+        switch currentIndex {
+        case startTriggerIndex:
+            self.collectionView.scrollToItem(
+                at: [0, middleLastIndex],
+                at: .right,
+                animated: false
+            )
+        case endTriggerIndex:
+            self.collectionView.scrollToItem(
+                at: [0, middleStartIndex],
+                at: .left,
+                animated: false
+            )
+        default:
+            if let cell = self.collectionView.cellForItem(at: .init(row: currentIndex, section: 0)) as? BannerCell {
+                //cell.play()
+            }
+            break
+        }
+    }
+
+}
+
+private extension BannerMainCell {
+    
+    enum Constants {
+        static let bannerSection: Int = 0
+        static let bannerPageControlTopConstraint: CGFloat = 548.0
+        static let bannerPageControlLeadingConstraint: CGFloat = 20.0
+    }
+    
 }
 
 @available(iOS 17.0, *)

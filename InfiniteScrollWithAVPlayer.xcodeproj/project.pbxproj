@@ -25,6 +25,7 @@
 		499B073E2C8402CA00C46FDD /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499B073D2C8402CA00C46FDD /* BannerModel.swift */; };
 		499B07402C84039900C46FDD /* BannerMainCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499B073F2C84039900C46FDD /* BannerMainCellViewModel.swift */; };
 		499B07422C840A3B00C46FDD /* Extension+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 499B07412C840A3A00C46FDD /* Extension+Combine.swift */; };
+		AD73651D2C86CA5C00A79DAD /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = AD73651C2C86CA5C00A79DAD /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD73651D2C86CA5C00A79DAD /* Kingfisher in Frameworks */,
 				499B07322C83F37800C46FDD /* CombineCocoa in Frameworks */,
 				499B072A2C8328A300C46FDD /* SnapKit in Frameworks */,
 			);
@@ -160,6 +162,7 @@
 			packageProductDependencies = (
 				499B07292C8328A300C46FDD /* SnapKit */,
 				499B07312C83F37800C46FDD /* CombineCocoa */,
+				AD73651C2C86CA5C00A79DAD /* Kingfisher */,
 			);
 			productName = InfiniteScrollWithAVPlayer;
 			productReference = 499B07092C83065C00C46FDD /* InfiniteScrollWithAVPlayer.app */;
@@ -192,6 +195,7 @@
 			packageReferences = (
 				499B07282C8328A300C46FDD /* XCRemoteSwiftPackageReference "SnapKit" */,
 				499B07302C83F37800C46FDD /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				AD73651B2C86CA5C00A79DAD /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 499B070A2C83065C00C46FDD /* Products */;
 			projectDirPath = "";
@@ -376,7 +380,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R6V3UCSNG3;
+				DEVELOPMENT_TEAM = HDFLLXK789;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = InfiniteScrollWithAVPlayer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -404,7 +408,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = R6V3UCSNG3;
+				DEVELOPMENT_TEAM = HDFLLXK789;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = InfiniteScrollWithAVPlayer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -465,6 +469,14 @@
 				minimumVersion = 0.4.1;
 			};
 		};
+		AD73651B2C86CA5C00A79DAD /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.12.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -477,6 +489,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 499B07302C83F37800C46FDD /* XCRemoteSwiftPackageReference "CombineCocoa" */;
 			productName = CombineCocoa;
+		};
+		AD73651C2C86CA5C00A79DAD /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD73651B2C86CA5C00A79DAD /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
