@@ -77,6 +77,7 @@ final class BannerCell: UICollectionViewCell {
     
     func play() {
         print("Play")
+        self.avPlayer.pause()
         self.avPlayer.seek(to: .zero)
         self.avPlayer.play()
         
